@@ -131,7 +131,7 @@ footer{margin-top:auto;padding:20px;text-align:center;font-size:12px;color:#bbb;
 
 <script>
 // 비밀번호 설정 (SHA256 해시로 저장 — 평문 노출 방지)
-const GATE_HASH = '__HASH__'; // 설정된 비밀번호 해시
+const GATE_HASH = 'fe91a760983d401d9b679fb092b689488d1f46d92f3af5e9e93363326f3e8aa4'; // 설정된 비밀번호 해시
 
 async function hashPw(pw){
   const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pw));
