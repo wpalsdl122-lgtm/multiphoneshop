@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<!-- saved from url=(0123)file:///C:/Users/User/Downloads/LL%EB%AA%A8%EB%B0%94%EC%9D%BC_%EC%97%85%EB%AC%B4%EA%B3%84%EC%A0%95%EA%B4%80%EB%A6%AC_1.html -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>멀티폰샵 — 업무 계정 관리</title>
+<link href="./멀티폰샵 — 업무 계정 관리_files/css2" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F2EC;--card:#fff;--dark:#18160F;--accent:#E05C1A;
+  --muted:#8A7968;--border:#DDD6CA;--input-bg:#FDFAF6;
+  --green:#1E6B45;--green-bg:#E6F4ED;
+  --mono:'Space Mono',monospace;--sans:'Noto Sans KR',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--sans);background:var(--bg);color:var(--dark);min-height:100vh;}
+
+header{background:var(--dark);padding:0 24px;height:54px;display:flex;align-items:center;gap:12px;border-bottom:2px solid var(--accent);}
+.logo{width:30px;height:30px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:#fff;}
+.logo-text{color:#fff;font-size:14px;font-weight:700;}
+.logo-sub{color:#666;font-size:11px;}
+.header-right{margin-left:auto;display:flex;gap:8px;}
+.hbtn{height:32px;padding:0 14px;font-size:12px;font-weight:700;font-family:var(--sans);border:none;border-radius:7px;cursor:pointer;}
+.hbtn-add{background:var(--accent);color:#fff;}
+.hbtn-add:hover{background:#C04A10;}
+
+
+
+.page{max-width:1400px;margin:0 auto;padding:20px 12px;}
+
+focus{border-color:var(--accent);}
+.lock-btn:hover{background:var(--accent);}
+/* 카드 그리드 */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
+
+.account-card{background:var(--card);border-radius:14px;border:1px solid var(--border);overflow:hidden;transition:box-shadow .15s;}
+.account-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08);}
+
+.ac-header{padding:14px 16px 10px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);}
+.ac-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.ac-name{font-size:14px;font-weight:700;flex:1;min-width:0;word-break:break-all;line-height:1.4;}
+.ac-actions{display:flex;gap:4px;}
+.ac-btn{width:28px;height:28px;border:none;background:transparent;cursor:pointer;border-radius:6px;font-size:14px;display:flex;align-items:center;justify-content:center;color:var(--muted);}
+.ac-btn:hover{background:var(--input-bg);color:var(--dark);}
+
+.ac-body{padding:12px 16px;display:flex;flex-direction:column;gap:8px;}
+.ac-field{display:flex;flex-direction:column;gap:3px;}
+.ac-label{font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;}
+.ac-value{display:flex;align-items:center;gap:6px;}
+.ac-text{font-family:var(--mono);font-size:13px;color:var(--dark);flex:1;word-break:break-all;line-height:1.5;}
+.copy-btn{flex-shrink:0;height:26px;padding:0 8px;font-size:11px;font-weight:600;font-family:var(--sans);background:var(--input-bg);border:1px solid var(--border);border-radius:5px;cursor:pointer;color:var(--muted);white-space:nowrap;transition:all .1s;}
+.copy-btn:hover{background:var(--dark);color:#fff;border-color:var(--dark);}
+.copy-btn.ok{background:var(--green);color:#fff;border-color:var(--green);}
+
+.ac-note{padding:8px 16px 12px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);line-height:1.7;white-space:pre-wrap;word-break:break-word;}
+
+/* 빈 상태 */
+.empty{text-align:center;padding:60px 20px;color:var(--muted);}
+.empty-icon{font-size:48px;margin-bottom:12px;}
+.empty-text{font-size:14px;}
+
+/* 모달 */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:500;padding:16px;}
+.modal{background:var(--card);border-radius:18px;padding:24px;width:100%;max-width:400px;}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.modal-field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+.modal-field label{font-size:12px;color:var(--muted);font-weight:500;}
+.modal-field input,.modal-field select,.modal-field textarea{background:var(--input-bg);border:1.5px solid var(--border);border-radius:9px;padding:0 12px;height:42px;font-size:14px;font-family:var(--sans);color:var(--dark);outline:none;transition:border .15s;width:100%;}
+.modal-field textarea{height:72px;padding:10px 12px;resize:none;line-height:1.6;}
+.modal-field input:focus,.modal-field select:focus,.modal-field textarea:focus{border-color:var(--accent);}
+.modal-btns{display:flex;gap:8px;margin-top:16px;}
+.modal-btns button{flex:1;height:42px;font-size:14px;font-weight:700;font-family:var(--sans);border-radius:9px;cursor:pointer;border:none;}
+.btn-cancel{background:var(--input-bg);color:var(--muted);border:1px solid var(--border) !important;}
+.btn-cancel:hover{background:var(--border);}
+.btn-save{background:var(--dark);color:#fff;}
+.btn-save:hover{background:var(--accent);}
+.btn-del{background:#FFF0E8;color:#C84A10;border:1px solid #FFCCAA !important;}
+.btn-del:hover{background:#C84A10;color:#fff;}
+
+/* 아이콘 색상 옵션 */
+.color-row{display:flex;gap:6px;flex-wrap:wrap;}
+.color-opt{width:28px;height:28px;border-radius:7px;border:2px solid transparent;cursor:pointer;transition:all .15s;}
+.color-opt.selected{border-color:var(--dark);transform:scale(1.1);}
+
+/* 검색 */
+.search-row{display:flex;gap:8px;margin-bottom:14px;}
+.search-input{flex:1;height:40px;padding:0 14px;font-size:13px;background:var(--card);border:1.5px solid var(--border);border-radius:10px;outline:none;font-family:var(--sans);}
+.search-input:focus{border-color:var(--accent);}
+
+/* 토스트 */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--dark);color:#fff;font-size:13px;font-weight:600;padding:12px 24px;border-radius:99px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;font-family:var(--sans);white-space:nowrap;}
+.toast.show{opacity:1;}
+
+.hidden{display:none;}
+</style>
+</head>
+<body>
+
+    <div class="lock-title">업무 계정 관리</div>
+    <div class="lock-sub">PIN 번호를 입력하세요</div>
+    
+    <button class="lock-btn" >잠금 해제</button>
+    <div class="lock-err" id="lock-err"></div>
+    <div class="lock-hint">※ 최초 입력 시 해당 번호가 PIN으로 설정됩니다</div>
+  </div>
+</div>
+
+<header>
+  <div class="logo">LL</div>
+  <div><div class="logo-text">멀티폰샵 <span class="logo-sub">업무 계정</span></div></div>
+  <div class="header-right">
+    <button class="hbtn hbtn-add" onclick="openModal()">+ 계정 추가</button>
+    
+  </div>
+</header>
+
+<div class="page">
+  <div class="search-row">
+    <input class="search-input" id="search" placeholder="🔍  업무명, 아이디 검색..." oninput="render()">
+  </div>
+  <div class="grid" id="grid">
+    <div class="account-card">
+      <div class="ac-header">
+        <div class="ac-icon" style="background:#E8F0FF">📱</div>
+        <div class="ac-name">모빙 SKT포탈</div>
+        <div class="ac-actions">
+          <button class="ac-btn" onclick="openModal(&#39;1779162516869&#39;)" title="수정">✏️</button>
+        </div>
+      </div>
+      <div class="ac-body">
+        
+        <div class="ac-field">
+          <div class="ac-label">아이디</div>
+          <div class="ac-value">
+            <span class="ac-text">eshwamg</span>
+            <button class="copy-btn" onclick="copyText(&#39;eshwamg&#39;,this)">복사</button>
+          </div>
+        </div>
+        
+        <div class="ac-field">
+          <div class="ac-label">비밀번호</div>
+          <div class="ac-value">
+            <span class="ac-text">ajfxlvhstiq1!</span>
+            <button class="copy-btn" onclick="copyText(&#39;ajfxlvhstiq1!&#39;,this)">복사</button>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <div class="account-card">
+      <div class="ac-header">
+        <div class="ac-icon" style="background:#E8F0FF">📱</div>
+        <div class="ac-name">모빙 KT (K노트)</div>
+        <div class="ac-actions">
+          <button class="ac-btn" onclick="openModal(&#39;1779162576461&#39;)" title="수정">✏️</button>
+        </div>
+      </div>
+      <div class="ac-body">
+        
+        <div class="ac-field">
+          <div class="ac-label">아이디</div>
+          <div class="ac-value">
+            <span class="ac-text">UCP11576</span>
+            <button class="copy-btn" onclick="copyText(&#39;UCP11576&#39;,this)">복사</button>
+          </div>
+        </div>
+        
+        <div class="ac-field">
+          <div class="ac-label">비밀번호</div>
+          <div class="ac-value">
+            <span class="ac-text">ajfxl1112!</span>
+            <button class="copy-btn" onclick="copyText(&#39;ajfxl1112!&#39;,this)">복사</button>
+          </div>
+        </div>
+      </div>
+      <div class="ac-note">*서류 및 신분증 K노트 접수
+=K노트 로그인-&gt;중앙위쪽 스캔등록
+-&gt;서식지스캔(롤)-&gt;신분증스캔
+-&gt;오른쪽상단 제목 (OOO 신규)
+-&gt;가입자명 (OOO)
+-&gt;Category (신규)
+-&gt;저장</div>
+    </div>
+    <div class="account-card">
+      <div class="ac-header">
+        <div class="ac-icon" style="background:#E8F0FF">📱</div>
+        <div class="ac-name">모빙 LGU+ (판매마당) - 유니컴즈 유니컴즈</div>
+        <div class="ac-actions">
+          <button class="ac-btn" onclick="openModal(&#39;1779162644157&#39;)" title="수정">✏️</button>
+        </div>
+      </div>
+      <div class="ac-body">
+        
+        <div class="ac-field">
+          <div class="ac-label">아이디</div>
+          <div class="ac-value">
+            <span class="ac-text">P354095000 / UCP11576</span>
+            <button class="copy-btn" onclick="copyText(&#39;P354095000 / UCP11576&#39;,this)">복사</button>
+          </div>
+        </div>
+        
+        <div class="ac-field">
+          <div class="ac-label">비밀번호</div>
+          <div class="ac-value">
+            <span class="ac-text">멀티1112!</span>
+            <button class="copy-btn" onclick="copyText(&#39;멀티1112!&#39;,this)">복사</button>
+          </div>
+        </div>
+      </div>
+      <div class="ac-note">알뜰폰스캔에서
+*서류 및 신분증 판매마당 접수
+=판매마당 로그인-&gt;상단 알뜰폰(스캔)
+-&gt;유니컴즈,유니컴즈 선택
+-&gt;문서스캔-&gt;신분증 스캔
+-&gt;서류구분(신규개통)-&gt;이름작성 후 입력
+-&gt;오른쪽상단 전송</div>
+    </div>
+    <div class="account-card">
+      <div class="ac-header">
+        <div class="ac-icon" style="background:#E8F0FF">📱</div>
+        <div class="ac-name">후불 KT-M모바일</div>
+        <div class="ac-actions">
+          <button class="ac-btn" onclick="openModal(&#39;1779162712061&#39;)" title="수정">✏️</button>
+        </div>
+      </div>
+      <div class="ac-body">
+        
+        <div class="ac-field">
+          <div class="ac-label">아이디</div>
+          <div class="ac-value">
+            <span class="ac-text">NETEL00</span>
+            <button class="copy-btn" onclick="copyText(&#39;NETEL00&#39;,this)">복사</button>
+          </div>
+        </div>
+        
+        <div class="ac-field">
+          <div class="ac-label">비밀번호</div>
+          <div class="ac-value">
+            <span class="ac-text">ajfxl1112! or ?</span>
+            <button class="copy-btn" onclick="copyText(&#39;ajfxl1112! or ?&#39;,this)">복사</button>
+          </div>
+        </div>
+      </div>
+      <div class="ac-note">※후불알뜰시, 6개월이상 안내 고지 
+    견적서에 내용수기 및 서명받기
+    후불폰6개월유지 [풀서류] [네텔]-KTM모바일 , 
+    U+U모바일주력
+    앞장 사진전송 필수</div>
+    </div>
+    <div class="account-card">
+      <div class="ac-header">
+        <div class="ac-icon" style="background:#E8F0FF">📱</div>
+        <div class="ac-name">후불 LG U모바일 - (주)비전모바일 미디어로그</div>
+        <div class="ac-actions">
+          <button class="ac-btn" onclick="openModal(&#39;1779162765333&#39;)" title="수정">✏️</button>
+        </div>
+      </div>
+      <div class="ac-body">
+        
+        <div class="ac-field">
+          <div class="ac-label">아이디</div>
+          <div class="ac-value">
+            <span class="ac-text">P354095000</span>
+            <button class="copy-btn" onclick="copyText(&#39;P354095000&#39;,this)">복사</button>
+          </div>
+        </div>
+        
+        <div class="ac-field">
+          <div class="ac-label">비밀번호</div>
+          <div class="ac-value">
+            <span class="ac-text">ajfxl1112!</span>
+            <button class="copy-btn" onclick="copyText(&#39;ajfxl1112!&#39;,this)">복사</button>
+          </div>
+        </div>
+      </div>
+      <div class="ac-note">※후불알뜰시, 6개월이상 안내 고지 및 
+   견적서에 내용수기 및 서명받기
+   후불폰6개월유지 [풀서류] [네텔]-KTM모바일 , 
+   U+U모바일주력
+   앞장 사진전송 필수</div>
+    </div>
+    <div class="account-card">
+      <div class="ac-header">
+        <div class="ac-icon" style="background:#F0EEFF">🌐</div>
+        <div class="ac-name">네이버 (블로그,메일)</div>
+        <div class="ac-actions">
+          <button class="ac-btn" onclick="openModal(&#39;1779168745535&#39;)" title="수정">✏️</button>
+        </div>
+      </div>
+      <div class="ac-body">
+        
+        <div class="ac-field">
+          <div class="ac-label">아이디</div>
+          <div class="ac-value">
+            <span class="ac-text">ajfxlvhstiq1@naver.com</span>
+            <button class="copy-btn" onclick="copyText(&#39;ajfxlvhstiq1@naver.com&#39;,this)">복사</button>
+          </div>
+        </div>
+        
+        <div class="ac-field">
+          <div class="ac-label">비밀번호</div>
+          <div class="ac-value">
+            <span class="ac-text">ajfxl1112!</span>
+            <button class="copy-btn" onclick="copyText(&#39;ajfxl1112!&#39;,this)">복사</button>
+          </div>
+        </div>
+      </div>
+      <div class="ac-note">블로그 매일 1개
+지피티 클로드 제미나이 원고작성
+사진 , 리뷰</div>
+    </div>
+    <div class="account-card">
+      <div class="ac-header">
+        <div class="ac-icon" style="background:#F0EEFF">🌐</div>
+        <div class="ac-name">인스타그램</div>
+        <div class="ac-actions">
+          <button class="ac-btn" onclick="openModal(&#39;1779168795383&#39;)" title="수정">✏️</button>
+        </div>
+      </div>
+      <div class="ac-body">
+        
+        <div class="ac-field">
+          <div class="ac-label">아이디</div>
+          <div class="ac-value">
+            <span class="ac-text">phoniverse_kr</span>
+            <button class="copy-btn" onclick="copyText(&#39;phoniverse_kr&#39;,this)">복사</button>
+          </div>
+        </div>
+        
+        <div class="ac-field">
+          <div class="ac-label">비밀번호</div>
+          <div class="ac-value">
+            <span class="ac-text">ajfxl1112!!</span>
+            <button class="copy-btn" onclick="copyText(&#39;ajfxl1112!!&#39;,this)">복사</button>
+          </div>
+        </div>
+      </div>
+      <div class="ac-note">게시물 , 릴스 , 쓰레드연동</div>
+    </div>
+    <div class="account-card">
+      <div class="ac-header">
+        <div class="ac-icon" style="background:#FFF0E8">🛒</div>
+        <div class="ac-name">스마트스토어 (네이버)</div>
+        <div class="ac-actions">
+          <button class="ac-btn" onclick="openModal(&#39;1779170155539&#39;)" title="수정">✏️</button>
+        </div>
+      </div>
+      <div class="ac-body">
+        
+        <div class="ac-field">
+          <div class="ac-label">아이디</div>
+          <div class="ac-value">
+            <span class="ac-text">ajfxlvhstiq1</span>
+            <button class="copy-btn" onclick="copyText(&#39;ajfxlvhstiq1&#39;,this)">복사</button>
+          </div>
+        </div>
+        
+        <div class="ac-field">
+          <div class="ac-label">비밀번호</div>
+          <div class="ac-value">
+            <span class="ac-text">ajfxl1112!</span>
+            <button class="copy-btn" onclick="copyText(&#39;ajfxl1112!&#39;,this)">복사</button>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <div class="account-card">
+      <div class="ac-header">
+        <div class="ac-icon" style="background:#F0EEFF">🌐</div>
+        <div class="ac-name">K노트 (개통)</div>
+        <div class="ac-actions">
+          <button class="ac-btn" onclick="openModal(&#39;1779176050922&#39;)" title="수정">✏️</button>
+        </div>
+      </div>
+      <div class="ac-body">
+        
+        <div class="ac-field">
+          <div class="ac-label">아이디</div>
+          <div class="ac-value">
+            <span class="ac-text">ajfxlvhstiq1</span>
+            <button class="copy-btn" onclick="copyText(&#39;ajfxlvhstiq1&#39;,this)">복사</button>
+          </div>
+        </div>
+        
+        <div class="ac-field">
+          <div class="ac-label">비밀번호</div>
+          <div class="ac-value">
+            <span class="ac-text">ajfxl1112!</span>
+            <button class="copy-btn" onclick="copyText(&#39;ajfxl1112!&#39;,this)">복사</button>
+          </div>
+        </div>
+      </div>
+      <div class="ac-note">개통전용 K노트</div>
+    </div></div>
+  <div class="empty hidden" id="empty">
+    <div class="empty-icon">🔑</div>
+    <div class="empty-text">+ 계정 추가 버튼으로 업무 계정을 등록하세요</div>
+  </div>
+</div>
+
+<!-- 추가/수정 모달 -->
+<div class="modal-bg hidden" id="modal">
+  <div class="modal">
+    <div class="modal-title">🔑 <span id="modal-title-text">계정 추가</span></div>
+    <div class="modal-field">
+      <label>업무명 *</label>
+      <input id="m-name" placeholder="예) 번개장터, 당근마켓, 세금계산서">
+    </div>
+    <div class="modal-field">
+      <label>아이콘</label>
+      <div class="color-row" id="icon-row"></div>
+    </div>
+    <div class="modal-field">
+      <label>아이디 / 이메일</label>
+      <input id="m-id" placeholder="아이디 또는 이메일">
+    </div>
+    <div class="modal-field">
+      <label>비밀번호</label>
+      <input id="m-pw" type="text" placeholder="비밀번호">
+    </div>
+    <div class="modal-field">
+      <label>메모 (선택)</label>
+      <textarea id="m-note" placeholder="추가 정보, URL 등"></textarea>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal()">취소</button>
+      <button class="btn-del hidden" id="btn-del" onclick="deleteAccount()">삭제</button>
+      <button class="btn-save" onclick="saveAccount()">저장</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── 데이터 ───────────────────────────────────────────────────
+const ICONS = [
+  {emoji:'🛒',bg:'#FFF0E8'},{emoji:'📱',bg:'#E8F0FF'},{emoji:'💰',bg:'#FFFBEE'},
+  {emoji:'🏦',bg:'#E8F9EE'},{emoji:'📦',bg:'#F5E8FF'},{emoji:'🖥️',bg:'#E8F5FF'},
+  {emoji:'📋',bg:'#FFF0F0'},{emoji:'🚗',bg:'#F0F5E8'},{emoji:'⚡',bg:'#FFFBE8'},
+  {emoji:'🔧',bg:'#F0F0F5'},{emoji:'📊',bg:'#E8FFF0'},{emoji:'🌐',bg:'#F0EEFF'},
+];
+let selectedIcon = ICONS[0];
+let editId = null;
+
+function load(){ try{ return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); }catch(e){ return []; } }
+function save(data){ localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); }
+
+// ── 렌더링 ───────────────────────────────────────────────────
+function render(){
+  const accounts = load();
+  const q = document.getElementById('search').value.toLowerCase();
+  const filtered = accounts.filter(a =>
+    a.name.toLowerCase().includes(q) || (a.id||'').toLowerCase().includes(q)
+  );
+
+  const grid  = document.getElementById('grid');
+  const empty = document.getElementById('empty');
+
+  if(!filtered.length){
+    grid.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  grid.innerHTML = filtered.map(a => {
+    const pw = a.pw || '';
+
+    return `
+    <div class="account-card">
+      <div class="ac-header">
+        <div class="ac-icon" style="background:${a.iconBg||'#F0F0F0'}">${a.icon||'🔑'}</div>
+        <div class="ac-name">${esc(a.name)}</div>
+        <div class="ac-actions">
+          <button class="ac-btn" onclick="openModal('${a._id}')" title="수정">✏️</button>
+        </div>
+      </div>
+      <div class="ac-body">
+        ${a.id ? `
+        <div class="ac-field">
+          <div class="ac-label">아이디</div>
+          <div class="ac-value">
+            <span class="ac-text">${esc(a.id)}</span>
+            <button class="copy-btn" onclick="copyText('${esc(a.id)}',this)">복사</button>
+          </div>
+        </div>` : ''}
+        ${pw ? `
+        <div class="ac-field">
+          <div class="ac-label">비밀번호</div>
+          <div class="ac-value">
+            <span class="ac-text">${esc(pw)}</span>
+            <button class="copy-btn" onclick="copyText('${esc(pw)}',this)">복사</button>
+          </div>
+        </div>` : ''}
+      </div>
+      ${a.note ? `<div class="ac-note">${esc(a.note)}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+// ── 복사 ─────────────────────────────────────────────────────
+function copyText(text, btn){
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.classList.add('ok');
+    btn.textContent = '✓';
+    setTimeout(()=>{ btn.classList.remove('ok'); btn.textContent='복사'; }, 1800);
+  });
+  showToast('클립보드에 복사됐어요!');
+}
+
+// ── 모달 ─────────────────────────────────────────────────────
+function openModal(id){
+  editId = id || null;
+  const accounts = load();
+  const a = id ? accounts.find(x => x._id === id) : null;
+
+  document.getElementById('modal-title-text').textContent = id ? '계정 수정' : '계정 추가';
+  document.getElementById('m-name').value = a?.name || '';
+  document.getElementById('m-id').value   = a?.id   || '';
+  document.getElementById('m-pw').value   = a?.pw   || '';
+  document.getElementById('m-note').value = a?.note || '';
+  document.getElementById('btn-del').classList.toggle('hidden', !id);
+
+  // 아이콘 선택
+  selectedIcon = a ? {emoji:a.icon, bg:a.iconBg} : ICONS[0];
+  renderIcons();
+
+  document.getElementById('modal').classList.remove('hidden');
+  setTimeout(()=>document.getElementById('m-name').focus(), 100);
+}
+
+function closeModal(){
+  document.getElementById('modal').classList.add('hidden');
+  editId = null;
+}
+
+function renderIcons(){
+  document.getElementById('icon-row').innerHTML = ICONS.map(ic => `
+    <div class="color-opt ${ic.emoji===selectedIcon.emoji?'selected':''}"
+         style="background:${ic.bg};font-size:16px;text-align:center;line-height:26px;"
+         onclick="selectIcon('${ic.emoji}','${ic.bg}')">
+      ${ic.emoji}
+    </div>
+  `).join('');
+}
+
+function selectIcon(emoji, bg){
+  selectedIcon = {emoji, bg};
+  renderIcons();
+}
+
+function saveAccount(){
+  const name = document.getElementById('m-name').value.trim();
+  if(!name){ alert('업무명을 입력해주세요'); return; }
+
+  const accounts = load();
+  if(editId){
+    const idx = accounts.findIndex(a => a._id === editId);
+    if(idx >= 0){
+      accounts[idx] = {
+        ...accounts[idx],
+        name, icon: selectedIcon.emoji, iconBg: selectedIcon.bg,
+        id:   document.getElementById('m-id').value.trim(),
+        pw:   document.getElementById('m-pw').value,
+        note: document.getElementById('m-note').value.trim(),
+      };
+    }
+  } else {
+    accounts.push({
+      _id:  Date.now().toString(),
+      name, icon: selectedIcon.emoji, iconBg: selectedIcon.bg,
+      id:   document.getElementById('m-id').value.trim(),
+      pw:   document.getElementById('m-pw').value,
+      note: document.getElementById('m-note').value.trim(),
+    });
+  }
+  save(accounts);
+  closeModal();
+  render();
+  showToast(editId ? '수정됐어요!' : `${name} 추가됐어요!`);
+}
+
+function deleteAccount(){
+  if(!confirm('이 계정을 삭제할까요?')) return;
+  const accounts = load().filter(a => a._id !== editId);
+  save(accounts);
+  closeModal();
+  render();
+  showToast('삭제됐어요');
+}
+
+// ── 토스트 ───────────────────────────────────────────────────
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2000);
+}
+
+// 초기화
+ });
+
+// 모달 바깥 클릭 시 닫기
+document.getElementById('modal').addEventListener('click', e => {
+  if(e.target === document.getElementById('modal')) closeModal();
+});
+</script>
+
+
+</body></html>
